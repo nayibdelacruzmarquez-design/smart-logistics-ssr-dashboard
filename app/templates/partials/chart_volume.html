@@ -1,0 +1,28 @@
+<div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-bold">Volumen por Hora</h3>
+    <!-- Selector HTMX que refresca este fragmento de gráfico -->
+    <select name="filtro"
+            hx-get="/component/volume"
+            hx-target="#volume-component"
+            hx-swap="innerHTML"
+            class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-slate-300">
+        <option value="hoy" {% if volume_data.filtro == "Hoy (Tiempo Real)" %}selected{% endif %}>Hoy</option>
+        <option value="ayer" {% if volume_data.filtro == "Ayer" %}selected{% endif %}>Ayer</option>
+    </select>
+</div>
+
+<div class="space-y-3">
+    <p class="text-xs text-slate-400">Filtrado por: <span class="text-sky-400 font-bold">{{ volume_data.filtro }}</span></p>
+    {% for idx in range(volume_data.labels|length) %}
+    <div>
+        <div class="flex justify-between text-xs mb-1">
+            <span>{{ volume_data.labels[idx] }} hrs</span>
+            <span class="font-bold">{{ volume_data.valores[idx] }} envíos</span>
+        </div>
+        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+            <!-- Gráfico renderizado con barras semánticas de Tailwind basadas en datos SSR -->
+            <div class="bg-sky-500 h-full transition-all duration-500" style="width: {{ (volume_data.valores[idx] / 5) }}%"></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

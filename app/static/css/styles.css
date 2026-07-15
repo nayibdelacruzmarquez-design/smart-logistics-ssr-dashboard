@@ -1,0 +1,71 @@
+/* Custom CSS para el Dashboard de Inteligencia Operativa */
+
+/* 1. Reset y Variables Base */
+:root {
+    --scrollbar-track: #0f172a;
+    --scrollbar-thumb: #1e293b;
+    --scrollbar-thumb-hover: #334155;
+}
+
+/* 2. Estilos Globales para Transiciones Suaves de HTMX */
+.htmx-settling {
+    opacity: 0;
+}
+
+.htmx-swapping {
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+}
+
+/* 3. Indicador de Carga Avanzado de HTMX */
+.htmx-indicator {
+    display: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.htmx-request .htmx-indicator {
+    display: block;
+}
+
+.htmx-request.htmx-indicator {
+    display: block;
+}
+
+/* 4. Personalización de Barras de Desplazamiento (Scrollbars) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* 5. Efecto de parpadeo suave para elementos en Tiempo Real */
+.pulse-live {
+    animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(14, 165, 233, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+    }
+}

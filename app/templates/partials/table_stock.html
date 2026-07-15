@@ -1,0 +1,50 @@
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+    <h3 class="text-lg font-bold flex items-center gap-2">
+        Alertas de Almacén Crítico
+        <span class="htmx-indicator text-xs font-normal text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded animate-pulse">
+            ⚡ Sincronizando...
+        </span>
+    </h3>
+    <div class="flex flex-wrap gap-1.5">
+        {% for r in ["Todas", "Norte", "Sur", "Este", "Oeste"] %}
+        <button hx-get="/component/stock?region={{ r }}"
+                hx-target="#stock-component"
+                hx-swap="innerHTML"
+                class="px-2.5 py-1 text-xs rounded bg-slate-900 hover:bg-slate-800 transition font-medium border border-slate-800 text-slate-300 focus:outline-none focus:border-sky-500">
+            {{ r }}
+        </button>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="overflow-x-auto rounded-lg border border-slate-900">
+    <table class="w-full text-left text-sm text-slate-400">
+        <thead class="text-xs uppercase bg-slate-900/80 text-slate-500 border-b border-slate-800">
+            <tr>
+                <th class="py-3 px-4">SKU</th>
+                <th class="py-3 px-4">Producto</th>
+                <th class="py-3 px-4">Zona</th>
+                <th class="py-3 px-4">Stock</th>
+                <th class="py-3 px-4">Urgencia</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-900">
+            {% for item in stock_critico %}
+            <tr class="hover:bg-slate-900/30 transition duration-150">
+                <td class="py-3 px-4 font-mono text-sky-400 text-xs">{{ item.sku }}</td>
+                <td class="py-3 px-4 font-medium text-white">{{ item.nombre }}</td>
+                <td class="py-3 px-4">{{ item.zona }}</td>
+                <td class="py-3 px-4 text-amber-400 font-bold">{{ item.stock }} pz</td>
+                <td class="py-3 px-4">
+                    <span class="px-2 py-0.5 text-xs rounded font-bold
+                        {% if item.nivel == 'Alta' %} bg-red-500/10 text-red-400
+                        {% elif item.nivel == 'Media' %} bg-amber-500/10 text-amber-400
+                        {% else %} bg-slate-500/10 text-slate-400 {% endif %}">
+                        {{ item.nivel }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
